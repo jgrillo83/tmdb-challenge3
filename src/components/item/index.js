@@ -132,6 +132,8 @@ export default class Item extends Lightning.Component {
         });
 
         this._focusAnimation.start();
+        // this.signal("toggleText", this._item);
+        this.fireAncestors('$toggleText', this._item);
     }
 
     _unfocus() {

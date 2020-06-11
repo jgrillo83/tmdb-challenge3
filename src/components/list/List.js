@@ -8,22 +8,69 @@ export default class List extends Lightning.Component {
                 y: 120, forceZIndexContext: true, boundsMargin: [500, 100, 500, 100],
                 transitions: {
                     x: {duration: .3, timingFunction: 'cubic-bezier(0.20, 1.00, 0.80, 1.00)'}
-                }
+                },
             },
             Focus: {
+              visible: false,
+              y: 120,
+              x: -30,
                 /**
                  * @ todo: Your goal is to add a focus indicator. Please take a look at the video
                  * and inspect the rectanle frame that's before the focused movie item.
                  * extra: Animate it a bit when the focus changes to the next item
                  */
+                 zIndex: 2,
+                 texture: Lightning.Tools.getRoundRect(234, 340, 4, 4, 0xff43f0e7, false),
             },
             Metadata: {
-                /**
-                 * @todo: Your goal is to add a component that have multiple text labels,
-                 * 1 for the Title of the selected asset and 1 for the genre.
-                 */
+              visible: false,
+              /**
+               * @todo: Your goal is to add a component that have multiple text labels,
+               * 1 for the Title of the selected asset and 1 for the genre.
+               */
+              Title: {
+                text : {
+                  text: '', fontSize: 48, fontFace: "SourceSansPro-Bold"
+                }
+              },
+              Genre: {
+                y: 55,
+                text: {
+                  text: '', fontSize: 24, fontFace: "SourceSansPro-Regular", textColor: 0xff43f0e7
+                }
+              }
             }
         }
+    }
+
+    $toggleText(item) {
+      console.log("toggleText : " + item.title);
+      this.tag("Metadata").tag("Title").patch({
+        text: { text: item.title }
+      });
+      this.tag("Metadata").tag("Genre").patch({
+        text: { text : item.genres.join(" | ") }
+      })
+    }
+
+    _focus() {
+      console.error("focus list");
+      this.tag("Focus").patch({
+        visible: true,
+      })
+      this.tag("Metadata").patch({
+        visible: true,
+      })
+    }
+
+    _unfocus() {
+      console.error("unfocus list");
+      this.tag("Focus").patch({
+        visible: false,
+      })
+      this.tag("Metadata").patch({
+        visible: false,
+      })
     }
 
     _init() {

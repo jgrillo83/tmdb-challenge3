@@ -1,5 +1,6 @@
 import {Lightning, Router} from 'wpe-lightning-sdk';
 
+
 export default class Menu extends Lightning.Component {
 
     static _template() {
@@ -9,15 +10,24 @@ export default class Menu extends Lightning.Component {
                 flex: {},
                 Movies: {
                     type: MenuItem,
-                    label: "Movies", id: "movies"
+                    label: "Movies", id: "movies",
+                    action: () => {
+                      Router.navigate("movies");
+                    }
                 },
                 Series: {
                     type: MenuItem,
-                    label: "Series", id: "tv"
+                    label: "Series", id: "tv",
+                    action: () => {
+                      Router.navigate("series")
+                    }
                 },
                 Exit: {
                     type: MenuItem,
-                    label: "Exit", id: "exit"
+                    label: "Exit", id: "exit",
+                    action : () => {
+                      Router.navigate("splash");
+                    }
                 }
             },
             Focus: {
@@ -76,7 +86,7 @@ export default class Menu extends Lightning.Component {
 
     _handleEnter(){
         /**
-         * @todo:
+         * @done:
          *
          * Your goal is to make the menu work, upon pressing enter, this function will be called
          * you need to navigate to something like:
@@ -88,6 +98,8 @@ export default class Menu extends Lightning.Component {
          * ---
          * so based on focused menu item.
          */
+         if (this.activeItem && this.activeItem.action)
+          this.activeItem.action();
     }
 
     _getFocused(){
@@ -121,4 +133,11 @@ class MenuItem extends Lightning.Component {
         return this._id;
     }
 
+    set action(v) {
+      this._action = v;
+    }
+
+    get action() {
+      return this._action;
+    }
 }

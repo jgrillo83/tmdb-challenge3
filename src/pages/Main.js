@@ -12,7 +12,7 @@ export default class Main extends Lightning.Component{
     }
 
     _init() {
-        this._index = 0; 
+        this._index = 0;
     }
 
     set data(v){
@@ -48,5 +48,7 @@ export default class Main extends Lightning.Component{
     _handleUp(){
         Router.focusWidget("menu")
     }
-
+    _inactive(){
+        Router.restoreFocus()
+    }
 }

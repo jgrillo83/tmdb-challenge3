@@ -1,5 +1,5 @@
 import {Router} from "wpe-lightning-sdk";
-import {getMovies} from './api';
+import {getPopular} from './api';
 
 /**
  *  bind a data request to a specific route, before a page load
@@ -20,7 +20,7 @@ export default () => {
      * you must await for the getMovies() and invoke the data on the page
      */
     Router.before("movies", async ({page})=>{
-        const movies = await getMovies();
+        const movies = await getPopular("movie");
         page.data = movies;
     }, 10 * 60 /* expires */);
 
@@ -31,4 +31,8 @@ export default () => {
      * and make sure you call grab the series from TMDBl
      * https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}
      */
+     Router.before("series", async ({page}) => {
+        const movies = await getPopular("tv");
+        page.data = movies;
+     }, 10 * 60 /* expires */);
 }
